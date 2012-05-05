@@ -1,6 +1,7 @@
 
 (function(undefined) {
 
+
 var App = {
 
 	ready: function() {
@@ -31,16 +32,6 @@ var App = {
 		});
 
 		$(document.body).addClass('fb-loaded');
-
-		App.login();
-
-	},
-
-	login: function() {
-
-		FB.login(function() {
-
-		})
 
 	},
 
