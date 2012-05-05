@@ -107,7 +107,10 @@ app.listen(port, function() {
 app.get('/', function index(req, res) {
 
 	res.render('index.jade', {
-		title: 'Mixtape'
+		title: 'Mixtape',
+		env: {
+			FB_ID: process.env.FB_ID
+		}
 	});
 
 });
@@ -196,6 +199,13 @@ app.get('/search/:q', function search(req, res) {
 
 	// });
 
+
+});
+
+app.get('/channel', function(req, res) {
+
+	res.setHeader('Cache-Control', 'public, max-age=' + (31557600000 / 1000)); // 1y
+	res.send('<script src="//connect.facebook.net/en_US/all.js"></script>');
 
 });
 
