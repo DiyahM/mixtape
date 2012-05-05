@@ -18,7 +18,6 @@
     "mongoose": "*",
     "socket.io": "*",
     "7digital-api": "*",
-    "echonest": "*",
     "async": "*"
   },
 

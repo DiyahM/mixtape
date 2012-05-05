@@ -4,7 +4,6 @@ var util = require('util');
 var jade = require('jade');
 var stylus = require('stylus');
 var nib = require('nib');
-var echonest = require('echonest');
 var sdigital = require('7digital-api');
 
 // Redis
@@ -19,21 +18,17 @@ var sdigital = require('7digital-api');
 
 // MongoDB
 
-mongoose = require('mongoose');
+// mongoose = require('mongoose');
 // mongoose.connect(process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://localhost/app');
-
-// Echonest
-
-echonest = new echonest.Echonest({
-    api_key: 'LOARVIOUAUEGXXL9L'
-});
 
 // 7digital
 
 sdigital.configure({
-	oauthkey: '7dsteshfbcps',
-	oauthsecret: 'rwvhq87ghummdt8m'
+	oauthkey: process.env.SDIGITAL_KEY,
+	oauthsecret: process.env.SDIGITAL_SECRET
 });
+var tracks = new sdigital.Tracks();
+
 
 // Configure express
 
@@ -47,6 +42,8 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+
+  // app.use(express.session({ secret: process.env.SESSION_SECRET || 'secret123' }));
 
   // Stylus
   app.use(stylus.middleware({
@@ -91,23 +88,6 @@ app.configure('production', function() {
 });
 
 
-// create an express webserver
-var app = express.createServer(
-	express.logger(),
-	express.static(__dirname + '/public'),
-	express.bodyParser(),
-	express.cookieParser(),
-
-	// set this to a secret value to encrypt session cookies
-	express.session({ secret: process.env.SESSION_SECRET || 'secret123' }),
-
-	require('faceplate').middleware({
-		app_id: process.env.FACEBOOK_APP_ID,
-		secret: process.env.FACEBOOK_SECRET,
-		scope: 'user_likes,user_photos'
-	})
-);
-
 // In memory cache for fast search
 
 var cache = {
@@ -124,24 +104,29 @@ app.listen(port, function() {
 
 // Components
 
-app.get('/play', function play(req, res) {
+app.get('/', function index(req, res) {
 
-	//
+	res.render('index.jade', {
+		title: 'Mixtape'
+	});
 
-	tracks = new api.Tracks();
+});
 
-	tracks.getPreview({trackId: 'SOVAOIM1315CD48938'}, function(err, data) {
 
-		console.log(data);
+app.get('/play/:id', function play(req, res) {
+
+	tracks.getPreview({trackId: req.params.id}, function(err, data) {
+
+		var url = data.url || null;
+
+		res.json({url: url});
 
 	});
 
 });
 
 
-app.post('/search', function play(req, res) {
-
-	console.log(req.params);
+app.get('/search/:q', function search(req, res) {
 
 	query = (req.params.q || '').trim();
 
@@ -156,26 +141,60 @@ app.post('/search', function play(req, res) {
 		return
 	}
 
-	nest.song.search({
-		combined: query,
-		sort: 'song_hotttnesss-desc' // for better results, hits first
-	}, function(err, data) {
+	// 7digital track search API
 
-		data = data.songs || [];
+	tracks.search({q: query}, function(err, data) {
 
-		data = data.map(function(song) {
+		data = data.searchResults.searchResult || []; // JSON, XML style
+
+		data = data.map(function(track) {
+
+			track = track.track;
+
+			// Nice duration
+			var duration = track.duration;
+			var seconds = String(duration % 60);
+			while (seconds.length < 2) {
+				seconds += '0'
+			}
+			duration = Math.round(duration / 60) + ':' + seconds
+
 			return {
-				id: song.id,
-				artist: song.artist_name,
-				title: song.title
+				id: track.id,
+				artist: track.artist.name,
+				title: track.title,
+				duration: duration,
+				url: track.url,
+				image: track.release.image || null
 			};
 		});
 
-		cache.search[query] = data
+		cache.search[query] = data;
 
 		res.json(data);
 
 	});
+
+	// nest.song.search({
+	//	combined: query,
+	//	sort: 'song_hotttnesss-desc' // for better results, hits first
+	// }, function(err, data) {
+
+	//	data = data.songs || [];
+
+	//	data = data.map(function(song) {
+	//		return {
+	//			id: song.id,
+	//			artist: song.artist_name,
+	//			title: song.title
+	//		};
+	//	});
+
+	//	cache.search[query] = data
+
+	//	res.json(data);
+
+	// });
 
 
 });
