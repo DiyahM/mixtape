@@ -47,8 +47,7 @@ app.configure(function() {
 
   // Stylus
   app.use(stylus.middleware({
-    src: __dirname + '/views',
-    dest: __dirname + '/public',
+    src: __dirname + '/public',
     compile: function(str, path) {
       var compiler;
       compiler = stylus(str);
@@ -115,6 +114,11 @@ app.get('/', function index(req, res) {
 
 });
 
+app.get('/search', function index(req, res) {
+
+	res.redirect('/');
+
+});
 
 app.get('/play/:id', function play(req, res) {
 

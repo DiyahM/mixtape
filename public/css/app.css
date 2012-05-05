@@ -1,0 +1,58 @@
+#search.loading input {
+  background: url("/img/load.gif") left 50% no-repeat;
+}
+#search.loading ul {
+  opacity: 0.5;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+.playlist {
+  font-family: 'Nothing You Could Do', cursive;
+  list-style: none;
+  margin: 0;
+}
+.playlist li {
+  padding: 0 5px 0 50px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+.playlist li strong {
+  display: block;
+  font-size: 18px;
+  line-height: 27px;
+}
+.playlist li .play {
+  border: none;
+  background: url("http://png-1.findicons.com/files//icons/1722/gnome_2_18_icon_theme/24/media_playback_start.png") no-repeat center;
+  text-indent: -9999px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+}
+.playlist li .add {
+  border: none;
+  background: #00f;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  display: none;
+}
+.playlist li .duration {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: small;
+}
+.playlist .loading .play {
+  background-image: url("/img/load.gif");
+}
+.playlist .playing .play {
+  background-image: url("http://png-1.findicons.com/files//icons/1722/gnome_2_18_icon_theme/24/media_playback_pause.png");
+}
+#search li .add {
+  display: block;
+}
