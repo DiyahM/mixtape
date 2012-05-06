@@ -48,21 +48,32 @@ var Publish = Backbone.View.extend({
 
 	sendSMS: function(evt) {
 
-		jQuery.post('/send', {
-			sms: this.$input.val()
+		evt.preventDefault();
+
+		var sms = this.$input.val();
+
+		if (!confirm('Send mixtape to ' + sms + '?')) {
+			return;
+		}
+
+		jQuery.post('/sms', {
+			sms: sms
 		});
 
 	},
 
 	sendFacebook: function(evt) {
 
+		evt.preventDefault();
+
 		var li = $(evt.currentTarget.id);
-		var id = li.attr('id').match(/\d/g)[0];
+		// var id = li.attr('id').match(/\d/g)[0];
 
 		var name = li.find('div').text();
 
-		alert(name);
-		alert(id);
+		if (!confirm('Send mixtape to ' + name + '?')) {
+			return;
+		}
 
 		// jQuery.post('/send', {
 		//	sms: this.$input.val()

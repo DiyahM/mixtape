@@ -1,3 +1,11 @@
+.page-header {
+  height: 200px;
+  background: url("/img/mixtape.gif") center no-repeat;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}
 #search.loading input {
   background: url("/img/load.gif") right 50% no-repeat;
 }

@@ -4,6 +4,8 @@ var util = require('util');
 var jade = require('jade');
 var stylus = require('stylus');
 var nib = require('nib');
+var request = require('request');
+var qs = require('querystring');
 var sdigital = require('7digital-api');
 
 // Redis
@@ -118,6 +120,7 @@ app.get('/', index);
 
 app.get('/search', index);
 app.get('/publish', index);
+app.get('/player', index);
 app.get('/mix/:id', index);
 
 app.get('/play/:id', function play(req, res) {
@@ -203,6 +206,29 @@ app.get('/search/:q', function search(req, res) {
 
 	// });
 
+
+});
+
+
+app.post('/sms', function search(req, res) {
+
+	var sms = req.params.sms;
+
+	var body = qs.stringify({
+		client_id: process.env.ATNT_ID,
+		client_secret: process.env.ATNT_SECRET,
+		grant_type: 'client_credentials',
+		scope: 'SMS'
+	});
+
+	console.log(body);
+
+	request.post({
+		url: 'https://api.att.com/oauth/token',
+		body: body
+	}, function(err, r, data) {
+		console.log(r, data);
+	});
 
 });
 

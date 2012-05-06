@@ -13,7 +13,8 @@ var Player = Backbone.View.extend({
 									 this.$el.find('.playListB ul')];
 		this.currentTrack = null;
 		this.songs = [];
-		this.render();
+
+		// this.render();
 	},
 
 	render: function() {

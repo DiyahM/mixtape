@@ -63,12 +63,14 @@ var Application = Backbone.Router.extend({
 				playlist: [
 					{
 						id: 3766427,
-						title: 'a',
+						title: 'Human',
+						artist: 'The Killers',
 						side: 0
 					},
 					{
-						id: 3631755,
-						title: 'b',
+						id: 15465040,
+						title: 'Smells like teen Spirit',
+						artist: 'Nirvana',
 						side: 1
 					}
 				]
@@ -78,6 +80,7 @@ var Application = Backbone.Router.extend({
 		this.editorView.$el.hide();
 		this.searchView.$el.hide();
 		this.publishView.$el.hide();
+		this.playerView.$el.hide();
 
 		this.container = $('#main');
 
