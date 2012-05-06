@@ -47,7 +47,8 @@ app.configure(function() {
 
   // Stylus
   app.use(stylus.middleware({
-    src: __dirname + '/public',
+    src: __dirname + '/views',
+    dest: __dirname + '/public',
     compile: function(str, path) {
       var compiler;
       compiler = stylus(str);
@@ -103,7 +104,7 @@ app.listen(port, function() {
 
 // Components
 
-var index = function index(req, res) {
+app.get('/', function index(req, res) {
 
 	res.render('index.jade', {
 		title: 'Mixtape',
@@ -112,13 +113,8 @@ var index = function index(req, res) {
 		}
 	});
 
-};
+});
 
-app.get('/', index);
-
-app.get('/search', index);
-app.get('/publish', index);
-app.get('/mix/:id', index);
 
 app.get('/play/:id', function play(req, res) {
 

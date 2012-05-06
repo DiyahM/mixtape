@@ -5,29 +5,35 @@
 
 		#main
 
-			.row#login
-
-				.span12
-					h4 Mix for Friends
-						button#btn-login Create Mixtape
-
 			.row#mixtape
 				.span12
-					h4 Playlist Editor
+					input(type='text', placeholder='Name your Mixtape …').span12
 					ul.playlist
 					button.search.btn Add Track
 					button.publish.btn Publish
 
 			.row#search
 				.span12
-					h4 Find your track
-						small x:xx left
-					input(type='text').span12
+					h4
+						div.pull-right
+							button.btn.small Back
+						| Find your track
+					input(type='search', placeholder='Song title or artist …').span12
 					ul.playlist
+
+
+			.row#publish
+				.span12
+					h4 Dedicate via SMS
+					form#sms-form(action='#', method='get')
+						input(type='tel', placeholder='(555) SMS-HERE …').span12
+					h4 Dedicate via Facebook
+					ul#faces
 
 			.row#player
 				.span12
 					h2 Player
+					button.btn.play Play
 					.info
 						.title
 						.to

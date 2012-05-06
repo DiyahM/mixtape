@@ -1,5 +1,5 @@
 #search.loading input {
-  background: url("/img/load.gif") left 50% no-repeat;
+  background: url("/img/load.gif") right 50% no-repeat;
 }
 #search.loading ul {
   opacity: 0.5;
@@ -14,6 +14,7 @@
   padding: 0 5px 0 50px;
   border-bottom: 1px solid #eee;
   position: relative;
+  cursor: pointer;
 }
 .playlist li strong {
   display: block;
@@ -55,4 +56,25 @@
 }
 #search li .add {
   display: block;
+}
+#faces {
+  list-style: none;
+  margin: 0;
+}
+#faces li {
+  float: left;
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+}
+#faces li img {
+  width: 50px;
+}
+#faces li div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#player li.playing {
+  font-weight: bold;
 }

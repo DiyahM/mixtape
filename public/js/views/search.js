@@ -19,10 +19,15 @@ var Search = Backbone.View.extend({
 		var list = this.$list;
 		list.empty();
 		this.collection.forEach(function(track) {
+			console.log(track.get('id'));
 			var view = new TrackEntry({model: track});
 			view.render();
 			list.append(view.$el);
 		});
+	},
+
+	focus: function() {
+		this.$input.focus();
 	},
 
 	search: function(evt) {
@@ -43,6 +48,11 @@ var Search = Backbone.View.extend({
 			self.collection.reset(data);
 			done();
 		});
+	},
+
+	reset: function() {
+		this.collection.reset();
+		this.$input.val('');
 	}
 
 });

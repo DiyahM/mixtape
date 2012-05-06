@@ -22,6 +22,8 @@ var TrackEntry = Backbone.View.extend({
 
 	play: function(evt) {
 
+		evt.stopImmediatePropagation();
+
 		var self = this;
 
 		// Loading state?
@@ -35,11 +37,16 @@ var TrackEntry = Backbone.View.extend({
 
 	add: function(evt) {
 
+		evt.stopImmediatePropagation();
+
 		if (this.collection == App.editorView.collection) {
 			return;
 		}
 
+		App.navigate('', {trigger: true});
+
 		App.editorView.collection.add(this.model);
+		App.searchView.reset();
 	}
 
 });
